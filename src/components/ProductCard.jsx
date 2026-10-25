@@ -5,7 +5,7 @@ export default function ProductCard({ product, onEnquire }) {
   const [expanded, setExpanded] = useState(false)
   return <article className="product-card">
     <div className="product-image"><img src={product.image} alt={product.name} loading="lazy" /><span className="product-category">{product.category}</span></div>
-    <div className="product-card-body"><p className="eyebrow">{product.application}</p><h3>{product.name}</h3>
+    <div className="product-card-body"><p className="product-description">{product.application}</p><h3>{product.name}</h3>
       <div className="feature-list">{product.features.slice(0, 2).map((feature) => <span key={feature}>{feature}</span>)}</div>
       <button className="spec-toggle" onClick={() => setExpanded(!expanded)}>{expanded ? 'Hide specifications' : 'View specifications'} <ChevronDown className={expanded ? 'rotate' : ''} size={16} /></button>
       {expanded && <div className="specs">{product.specs.map(([key, value]) => <div key={key}><span>{key}</span><strong>{value}</strong></div>)}</div>}
