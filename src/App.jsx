@@ -6,6 +6,7 @@ import EnquiryModal from './components/EnquiryModal'
 import CertificateModal from './components/CertificateModal'
 import ProductCard from './components/ProductCard'
 import AccessoryCard from './components/AccessoryCard'
+import WhatsAppButton from './components/WhatsAppButton'
 import { accessories, categories, products } from './data/products'
 import { services } from './data/services'
 import { company } from './config'
@@ -30,7 +31,7 @@ export default function App() {
     }), { threshold: 0.08 })
     observed.forEach((element) => observer.observe(element))
     return () => { observer.disconnect(); document.documentElement.classList.remove('motion-ready') }
-  }, [])
+  }, [category])
   return <div>
     <Navbar onQuote={openQuote} />
     <main>
@@ -44,10 +45,11 @@ export default function App() {
       <section className="services-section" id="services"><div className="section-wrap"><SectionHeading light eyebrow="Beyond the machine" title={<>Care that keeps<br />industry moving.</>}>Our service capability is built around uptime, safety and thoughtful engineering intervention.</SectionHeading><div className="services-grid">{services.map(({ title, description, icon: Icon }, index) => <div className="service-item" key={title}><span className="service-number">0{index + 1}</span><Icon size={25} strokeWidth={1.5} /><h3>{title}</h3><p>{description}</p><ChevronRight /></div>)}</div></div></section>
       <section className="project-section section-wrap" id="projects"><div className="section-topline"><SectionHeading eyebrow="Featured project" title={<>Respect the legacy.<br />Renew the future.</>} /><p className="section-sidecopy">A before-and-after study in bringing legacy machinery back into productive service, with a cleaner, more capable finish.</p></div><div className="project-images"><figure><img src="/images/Hydraulic press machine refurbishment.jpeg" alt="Hydraulic press refurbishment project" loading="lazy" /><figcaption><span>01 / Refurbishment</span><strong>Restoring capability through considered engineering.</strong></figcaption></figure><div className="project-aside"><div className="aside-icon"><ShieldCheck /></div><p>Complete overhaul and refurbishment for hydraulic press models, with modernization and PLC automation capabilities where appropriate.</p><span className="project-note">Scope and one-year guarantee to be confirmed per project.</span></div></div></section>
       <section className="customers-section" id="customers"><div className="section-wrap"><SectionHeading eyebrow="Our customers" title="Trusted in good company." /></div><div className="logo-window"><div className="logo-track">{[...customerLogos, ...customerLogos].map((logo, index) => <img key={`${logo}-${index}`} src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" />)}</div></div></section>
-      <section className="contact-section section-wrap" id="contact"><div className="contact-layout"><div><SectionHeading eyebrow="Let’s get to work" title={<>Have a challenge<br />in mind?</>}>Tell us what you’re building, repairing or improving. We’ll bring the right questions.</SectionHeading><div className="contact-details"><a href={`tel:${company.phone.replace(/\s/g, '')}`}><Phone size={18} />{company.phone}</a><a href={`mailto:${company.email}`}><Mail size={18} />{company.email}</a><span><MapPin size={18} />{company.address}</span></div></div><div className="contact-form-wrap"><EnquiryForm /></div></div></section>
+      <section className="contact-section section-wrap" id="contact"><div className="contact-layout"><div><SectionHeading eyebrow="Let’s get to work" title={<>Have a challenge<br />in mind?</>}>Tell us what you’re building, repairing or improving. We’ll bring the right questions.</SectionHeading><div className="contact-details"><a href={`tel:${company.phone.replace(/\s/g, '')}`}><Phone size={18} />{company.phone}</a><a href={`mailto:${company.email}`}><Mail size={18} />{company.email}</a><span><MapPin size={18} />{company.address}</span></div></div><div className="contact-form-wrap"><EnquiryForm /></div></div><div className="find-us"><div className="find-us-heading"><SectionHeading eyebrow="Our location" title="Find Us" /></div><div className="find-us-content"><div className="find-us-copy"><p>{company.address}</p><a className="button button-primary" href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(company.address)}`} target="_blank" rel="noreferrer">Get Directions <ArrowUpRight size={16} /></a></div><div className="map-frame"><iframe title="Hari Engineering location map" src={`https://www.google.com/maps?q=${encodeURIComponent(company.address)}&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" /></div></div></div></section>
     </main>
     <footer><div className="footer-top"><a className="brand footer-brand" href="#home"><img className="brand-logo" src="/images/Logo.jpeg" alt="Hari Engineering logo" /><span>{company.name}<small>HYDRAULIC ENGINEERING</small></span></a><p>Integrated hydraulic engineering solutions for industry, maintenance and what comes next.</p><a className="button button-ghost light-button" href="#contact">Start a conversation <ArrowUpRight size={16} /></a></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Hari Engineering. All rights reserved.</span><span>Jamshedpur, Jharkhand, India</span><a href={`mailto:${company.supportEmail}`}>{company.supportEmail}</a></div></footer>
     {selectedProduct && <EnquiryModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />}
     {certificateOpen && <CertificateModal onClose={() => setCertificateOpen(false)} />}
+    <WhatsAppButton />
   </div>
 }
