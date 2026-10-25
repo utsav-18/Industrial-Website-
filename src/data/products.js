@@ -19,5 +19,5 @@ export const products = [
 ]
 
 export const accessories = [
-  ['Manifold blocks', 'Manifold blocks.png'], ['Hydraulic pumps', 'hydraulic pump.png'], ['Hydraulic seals', 'hydraulic seals.png'], ['Hydraulic valves', 'hydraulic valvs.png'], ['Hose pipes', 'hose pipes.png'], ['Fittings & quick-change couplers', 'hydraulic fittings and quick change.png'],
+  ['Manifold blocks', 'manifold blocks.png'], ['Hydraulic pumps', 'hydraulic pump.png'], ['Hydraulic seals', 'hydraulic seals.png'], ['Hydraulic valves', 'hydraulic valvs.png'], ['Hose pipes', 'hose pipes.png'], ['Fittings & quick-change couplers', 'hydraulic fittings and quick change.png'],
 ].map(([name, file]) => ({ name, image: image(file), description: 'Reliable hydraulic component for integrated systems and maintenance.' }))
