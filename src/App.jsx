@@ -24,8 +24,9 @@ export default function App() {
   const shownProducts = useMemo(() => category === 'All' ? products : products.filter((product) => product.category === category), [category])
   const openQuote = () => setSelectedProduct({ name: 'General Enquiry' })
   useEffect(() => {
+    if (!('IntersectionObserver' in window)) return undefined
     document.documentElement.classList.add('motion-ready')
-    const observed = document.querySelectorAll('main > section, .product-card, .service-item')
+    const observed = document.querySelectorAll('main > section, .service-item, .intro-image, .project-images figure, .project-aside, .find-us')
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
       if (entry.isIntersecting) entry.target.classList.add('is-visible')
     }), { threshold: 0.08 })
