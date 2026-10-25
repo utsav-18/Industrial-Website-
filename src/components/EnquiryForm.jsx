@@ -9,7 +9,7 @@ function validate(values) {
   if (!values.firmName.trim()) errors.firmName = 'Firm name is required.'
   if (!values.name.trim()) errors.name = 'Name is required.'
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) errors.email = 'Enter a valid email address.'
-  if (!/^[6-9]\d{9}$/.test(values.phone.replace(/[\s-]/g, ''))) errors.phone = 'Enter a valid 10-digit Indian mobile number.'
+  if (!/^[6-9]\d{9}$/.test(values.phone)) errors.phone = 'Enter a valid 10-digit Indian mobile number.'
   if (!values.city.trim()) errors.city = 'City is required.'
   if (!values.requirements.trim()) errors.requirements = 'Please tell us about your requirement.'
   return errors
@@ -23,7 +23,8 @@ export default function EnquiryForm({ productName = '', onSuccess }) {
 
   function update(event) {
     const { name, value } = event.target
-    setValues((current) => ({ ...current, [name]: value }))
+    const nextValue = name === 'phone' ? value.replace(/\D/g, '').slice(0, 10) : value
+    setValues((current) => ({ ...current, [name]: nextValue }))
     if (errors[name]) setErrors((current) => ({ ...current, [name]: '' }))
   }
 
@@ -36,7 +37,7 @@ export default function EnquiryForm({ productName = '', onSuccess }) {
     setLoading(true)
     setStatus(null)
     try {
-      await submitEnquiry({ ...values, productName, phone: values.phone.replace(/[\s-]/g, '') })
+      await submitEnquiry({ ...values, productName })
       setStatus({ type: 'success', message: 'Thank you. Your enquiry has been received.' })
       setValues(initial)
       onSuccess?.()
@@ -60,8 +61,20 @@ export default function EnquiryForm({ productName = '', onSuccess }) {
         {fields.map(([name, label, placeholder]) => (
           <label key={name} className="field">
             <span>{label} <i>*</i></span>
-            <input name={name} value={values[name]} onChange={update} placeholder={placeholder} aria-invalid={Boolean(errors[name])} />
-            {errors[name] && <small className="field-error">{errors[name]}</small>}
+            <input
+              name={name}
+              value={values[name]}
+              onChange={update}
+              placeholder={placeholder}
+              aria-invalid={Boolean(errors[name])}
+              aria-describedby={errors[name] ? `${name}-error` : undefined}
+              type={name === 'email' ? 'email' : name === 'phone' ? 'tel' : 'text'}
+              inputMode={name === 'phone' ? 'numeric' : undefined}
+              maxLength={name === 'phone' ? 10 : undefined}
+              minLength={name === 'phone' ? 10 : undefined}
+              autoComplete={name === 'phone' ? 'tel' : undefined}
+            />
+            {errors[name] && <small id={`${name}-error`} className="field-error">{errors[name]}</small>}
           </label>
         ))}
         <label className="field field-wide">
