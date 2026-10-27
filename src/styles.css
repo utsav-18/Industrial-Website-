@@ -665,6 +665,87 @@ html, body { overflow-x:hidden; }
 .capability-list li { display:flex; align-items:center; gap:10px; }
 .capability-list svg { color:var(--steel-blue); flex:none; }
 
+/* ── Our Services ──────────────────────────────────────────── */
+.services-section { padding-top:40px; background:var(--bg); }
+.services-section > .reveal { margin-bottom:40px; }
+.services-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:20px;
+  margin-bottom:32px;
+}
+.service-card {
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  padding:28px 24px;
+  background:var(--surface);
+  border:1.5px solid #d4dce8;
+  border-radius:var(--radius-card);
+  box-shadow:var(--shadow-card);
+  transition:transform .28s cubic-bezier(.22,1,.36,1),box-shadow .28s,border-color .28s;
+  box-sizing:border-box;
+}
+.service-card:hover {
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-card-hover);
+  border-color:#b4c8e8;
+}
+.service-icon-box {
+  display:inline-grid;
+  place-items:center;
+  width:46px;
+  height:46px;
+  border-radius:12px;
+  background:linear-gradient(135deg, rgba(245,166,35,0.15), rgba(234,88,12,0.12));
+  color:var(--orange-dark);
+  border:1px solid rgba(234,88,12,0.25);
+  margin-bottom:18px;
+}
+.service-card h3 {
+  color:var(--deep-blue);
+  font-size:1.15rem;
+  letter-spacing:-.03em;
+  margin:0 0 10px;
+  line-height:1.3;
+}
+.service-card p {
+  color:var(--muted);
+  font-size:13.5px;
+  line-height:1.6;
+  margin:0;
+}
+.services-expertise-card {
+  padding:32px 36px;
+  background:linear-gradient(135deg,#0c1422,#162b50 60%,#0e1c34);
+  border:1px solid #2a4268;
+  border-left:4px solid var(--orange-dark);
+  border-radius:16px;
+  box-shadow:0 12px 40px rgba(12,20,34,0.25);
+  color:#fff;
+  position:relative;
+}
+.expertise-badge {
+  display:inline-block;
+  padding:4px 12px;
+  border-radius:20px;
+  background:var(--btn-orange-grad);
+  color:#fff;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  margin-bottom:14px;
+}
+.expertise-text {
+  color:#f1f5f9;
+  font-size:clamp(15px,1.2vw,17px);
+  line-height:1.7;
+  font-style:italic;
+  margin:0;
+  font-weight:500;
+}
+
 /* ── Process cards ─────────────────────────────────────────── */
 .process-section { padding-top:20px; }
 .process-section > .reveal { margin-bottom:40px; }
@@ -1048,7 +1129,9 @@ footer {
   .hero-visual { width:100%; aspect-ratio:1672/941; height:auto; background-size:contain; }
   .hero-form-panel { padding:38px 20px; }
   .section-wrap { padding:60px 16px; }
-  .product-grid,.accessory-grid,.metrics-grid,.story-grid,.process-grid,.about-panel,.contact-layout { grid-template-columns:1fr; }
+  .product-grid,.accessory-grid,.metrics-grid,.story-grid,.process-grid,.services-grid,.about-panel,.contact-layout { grid-template-columns:1fr; }
+  .services-expertise-card { padding:22px 18px; }
+  .expertise-text { font-size:13.5px; }
   .product-image { height:clamp(240px,68vw,300px); padding:34px 18px 18px; }
   .product-category { top:10px; left:12px; padding:4px 7px; font-size:8.5px; }
   .about-copy { padding:32px 25px; }
