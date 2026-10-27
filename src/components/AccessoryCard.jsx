@@ -4,7 +4,7 @@ export default function AccessoryCard({ accessory, onEnquire }) {
   return <article className="product-card accessory-product-card">
     <div className="product-image accessory-product-image">
       <img src={accessory.image} alt={accessory.name} loading="lazy" />
-      <span className="product-category">Accessories</span>
+      <span className="product-category">Accessory</span>
     </div>
     <div className="product-card-body">
       <h3>{accessory.name}</h3>

@@ -50,6 +50,16 @@ export default function App() {
 
   return <div>
     <Navbar onQuote={openQuote} />
+    <div className="marquee-bar" aria-label="Our customers">
+      <div className="marquee-track">
+        <div className="marquee-group">
+          {customerLogos.map((logo, index) => <img key={`m1-${logo}-${index}`} src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" />)}
+        </div>
+        <div className="marquee-group" aria-hidden="true">
+          {customerLogos.map((logo, index) => <img key={`m2-${logo}-${index}`} src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" />)}
+        </div>
+      </div>
+    </div>
     <main>
       <section className="hero hero-split" id="home">
         <div className="hero-visual" role="img" aria-label="Metallic Hari Engineering hydraulic branding">
@@ -74,7 +84,7 @@ export default function App() {
       </section>
 
       <section className="story-section section-wrap">
-        <div className="story-grid"><Reveal className="info-card"><SectionHeading eyebrow="Who we are" title="Engineering that understands the work." /><p>From new equipment to legacy machinery, we bring practical engineering thinking to every stage of a hydraulic system’s life. Our work spans manufacturing, maintenance, repair, refurbishment, installation and recommissioning.</p><a className="text-button" href="#contact">Talk to our team <ArrowRight size={16} /></a></Reveal><Reveal className="info-card" delay={0.1}><SectionHeading eyebrow="Core capabilities" title="Built around your uptime." /><ul className="capability-list">{services.slice(0, 5).map((service) => <li key={service.title}><CheckCircle2 size={16} />{service.title}</li>)}</ul></Reveal></div>
+        <div className="story-grid"><Reveal className="info-card"><SectionHeading eyebrow="Who we are" title="Engineering that understands the work." /><p>From new equipment to legacy machinery, we bring practical engineering thinking to every stage of a hydraulic system's life. Our work spans manufacturing, maintenance, repair, refurbishment, installation and recommissioning.</p><a className="text-button" href="#contact">Talk to our team <ArrowRight size={16} /></a></Reveal><Reveal className="info-card" delay={0.1}><SectionHeading eyebrow="Core capabilities" title="Built around your uptime." /><ul className="capability-list">{services.slice(0, 5).map((service) => <li key={service.title}><CheckCircle2 size={16} />{service.title}</li>)}</ul></Reveal></div>
       </section>
 
       <section className="process-section section-wrap" id="services">
@@ -82,13 +92,25 @@ export default function App() {
         <div className="process-grid">{[['01', 'Understand', 'We begin with the application, the constraints and the outcome you need.'], ['02', 'Engineer', 'We select, repair or configure the right hydraulic solution for the work.'], ['03', 'Deliver', 'We install, test and support the equipment through its working life.']].map(([number, title, text], index) => <Reveal key={number} delay={index * 0.05}><article className="process-card"><span>{number}</span><h3>{title}</h3><p>{text}</p></article></Reveal>)}</div>
       </section>
 
-      <section className="customers-section" id="customers"><div className="section-wrap"><Reveal><SectionHeading eyebrow="Our customers" title="Trusted in good company." /></Reveal></div><div className="logo-window"><div className="logo-track">{[...customerLogos, ...customerLogos].map((logo, index) => <img key={`${logo}-${index}`} src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" />)}</div></div></section>
+      <section className="customers-section" id="customers">
+        <div className="section-wrap"><Reveal><SectionHeading eyebrow="Our customers" title="Trusted in good company." /></Reveal></div>
+        <div className="logo-window">
+          <div className="logo-track">
+            <div className="logo-group">
+              {customerLogos.map((logo, index) => <img key={`c1-${logo}-${index}`} src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" />)}
+            </div>
+            <div className="logo-group" aria-hidden="true">
+              {customerLogos.map((logo, index) => <img key={`c2-${logo}-${index}`} src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" />)}
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="certificates-section section-wrap" id="certificates"><Reveal><SectionHeading eyebrow="Our credentials" title="Built on trust." /></Reveal><div className="certificate-grid"><button className="certificate-card" onClick={() => setCertificateOpen(true)}><img src="/images/Certificate.png" alt="Hari Engineering certificate" /><span>View certificate <ArrowUpRight size={16} /></span></button></div></section>
 
-      <section className="contact-section section-wrap" id="contact"><div className="contact-layout"><Reveal><SectionHeading eyebrow="Let’s get to work" title={<>Have a challenge<br />in mind?</>}>Tell us what you’re building, repairing or improving. We’ll bring the right questions.</SectionHeading><div className="contact-details"><a href={`tel:${company.phone.replace(/\s/g, '')}`}><Phone size={18} />{company.phone}</a><a href={`mailto:${company.email}`}><Mail size={18} />{company.email}</a><span><MapPin size={18} />{company.address}</span></div></Reveal><Reveal className="contact-form-wrap" delay={0.1}><EnquiryForm /></Reveal></div><div className="find-us"><div className="find-us-copy"><SectionHeading eyebrow="Our location" title="Find Us" /><p>{company.address}</p><a className="button button-primary" href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(company.address)}`} target="_blank" rel="noreferrer">Get Directions <ArrowUpRight size={16} /></a></div><div className="map-frame"><iframe title="Hari Engineering location map" src={`https://www.google.com/maps?q=${encodeURIComponent(company.address)}&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" /></div></div></section>
+      <section className="contact-section section-wrap" id="contact"><div className="contact-layout"><Reveal><SectionHeading eyebrow="Let's get to work" title={<>Have a challenge<br />in mind?</>}>Tell us what you're building, repairing or improving. We'll bring the right questions.</SectionHeading><div className="contact-details"><a href={`tel:${company.phone.replace(/\s/g, '')}`}><Phone size={18} />{company.phone}</a><a href={`mailto:${company.email}`}><Mail size={18} />{company.email}</a><span><MapPin size={18} />{company.address}</span></div></Reveal><Reveal className="contact-form-wrap" delay={0.1}><EnquiryForm /></Reveal></div><div className="find-us"><div className="find-us-copy"><SectionHeading eyebrow="Our location" title="Find Us" /><p>{company.address}</p><a className="button button-primary" href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(company.address)}`} target="_blank" rel="noreferrer">Get Directions <ArrowUpRight size={16} /></a></div><div className="map-frame"><iframe title="Hari Engineering location map" src={`https://www.google.com/maps?q=${encodeURIComponent(company.address)}&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" /></div></div></section>
     </main>
-    <footer><div className="footer-top"><a className="brand footer-brand" href="#home"><img className="brand-logo" src="/images/Logo.jpeg" alt="Hari Engineering logo" /><span>{company.name}<small>HYDRAULIC ENGINEERING</small></span></a><p>Integrated hydraulic engineering solutions for industry, maintenance and what comes next.</p><a className="button button-ghost light-button" href="#contact">Start a conversation <ArrowUpRight size={16} /></a></div><div className="footer-links"><div><strong>Products</strong><a href="#products">Hydraulic presses</a><a href="#products">Hydraulic jacks</a><a href="#products">Power & cylinders</a></div><div><strong>Company</strong><a href="#about">About us</a><a href="#services">Services</a><a href="#customers">Customers</a></div><div><strong>Contact</strong><a href={`tel:${company.phone}`}>{company.phone}</a><a href={`mailto:${company.email}`}>{company.email}</a><span>{company.address}</span></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Hari Engineering. All rights reserved.</span><span>Jamshedpur, Jharkhand, India</span></div></footer>
+    <footer><div className="footer-top"><a className="brand footer-brand" href="#home"><img className="brand-logo" src="/images/Logo.jpeg" alt="Hari Engineering logo" /><span>{company.name}<small>HYDRAULIC ENGINEERING</small></span></a><p>Integrated hydraulic engineering solutions for industry, maintenance and what comes next.</p><a className="button button-ghost light-button" href="#contact">Start a conversation <ArrowUpRight size={16} /></a></div><div className="footer-links"><div><strong>Products</strong><a href="#products">Hydraulic presses</a><a href="#products">Hydraulic jacks</a><a href="#products">Power &amp; cylinders</a></div><div><strong>Company</strong><a href="#about">About us</a><a href="#services">Services</a><a href="#customers">Customers</a></div><div><strong>Contact</strong><a href={`tel:${company.phone}`}>{company.phone}</a><a href={`mailto:${company.email}`}>{company.email}</a><span>{company.address}</span></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Hari Engineering. All rights reserved.</span><span>Jamshedpur, Jharkhand, India</span></div></footer>
     {selectedProduct && <EnquiryModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />}
     {certificateOpen && <CertificateModal onClose={() => setCertificateOpen(false)} />}
     <WhatsAppButton />
