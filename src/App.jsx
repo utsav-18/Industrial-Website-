@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { ArrowDownRight, ArrowRight, ArrowUpRight, ChevronRight, Mail, MapPin, Phone, ShieldCheck } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, CheckCircle2, Mail, MapPin, Phone } from 'lucide-react'
 import Navbar from './components/Navbar'
 import EnquiryForm from './components/EnquiryForm'
 import EnquiryModal from './components/EnquiryModal'
@@ -14,7 +14,15 @@ import { company } from './config'
 const customerLogos = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png', '10.png', '11.png', '12.png', '13.png', '14.png']
 
 function SectionHeading({ eyebrow, title, children, light = false }) {
-  return <div className={`section-heading ${light ? 'light' : ''}`}><p className="eyebrow">{eyebrow}</p><h2>{title}</h2>{children && <p className="section-lede">{children}</p>}</div>
+  return <div className={`section-heading ${light ? 'light' : ''}`}>
+    <p className="eyebrow">{eyebrow}</p>
+    <h2>{title}</h2>
+    {children && <p className="section-lede">{children}</p>}
+  </div>
+}
+
+function Reveal({ children, className = '', delay = 0 }) {
+  return <div className={`reveal ${className}`} style={{ '--reveal-delay': `${Math.min(delay, 0.35)}s` }}>{children}</div>
 }
 
 export default function App() {
@@ -23,32 +31,64 @@ export default function App() {
   const [certificateOpen, setCertificateOpen] = useState(false)
   const shownProducts = useMemo(() => category === 'All' ? products : products.filter((product) => product.category === category), [category])
   const openQuote = () => setSelectedProduct({ name: 'General Enquiry' })
+
   useEffect(() => {
-    if (!('IntersectionObserver' in window)) return undefined
-    document.documentElement.classList.add('motion-ready')
-    const observed = document.querySelectorAll('.intro, .services-section, .project-section, .customers-section, .contact-section, .service-item, .intro-image, .project-images figure, .project-aside, .find-us')
+    const elements = document.querySelectorAll('.reveal')
+    if (!('IntersectionObserver' in window)) {
+      elements.forEach((element) => element.classList.add('is-visible'))
+      return undefined
+    }
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
-      if (entry.isIntersecting) entry.target.classList.add('is-visible')
-    }), { threshold: 0.08 })
-    observed.forEach((element) => observer.observe(element))
-    return () => { observer.disconnect(); document.documentElement.classList.remove('motion-ready') }
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible')
+        observer.unobserve(entry.target)
+      }
+    }), { threshold: 0.14 })
+    elements.forEach((element) => observer.observe(element))
+    return () => observer.disconnect()
   }, [category])
+
   return <div>
     <Navbar onQuote={openQuote} />
     <main>
-      <section className="hero" id="home">
-        <div className="hero-content"><p className="eyebrow accent">HYDRAULIC ENGINEERING / Jamshedpur, India</p><h1>Force engineered<br /><em>for what’s next.</em></h1><p className="hero-copy">Integrated hydraulic equipment, service and refurbishment solutions for demanding industrial applications.</p><div className="hero-actions"><a className="button button-primary" href="#products">Explore Products <ArrowDownRight size={17} /></a><button className="button button-ghost" onClick={openQuote}>Request a Quote <ArrowRight size={16} /></button></div><div className="hero-note"><span className="status-dot" /> Building dependable hydraulic systems since 2023</div></div>
-        <div className="hero-visual"><img src="/images/Hydraulic press machine refurbishment.jpeg" alt="Refurbished hydraulic press machine" /><div className="hero-card"><span>01</span><strong>Precision in<br />every stroke.</strong><ArrowUpRight /></div></div>
-        <div className="hero-index">SCROLL TO EXPLORE <span /></div>
+      <section className="hero hero-split" id="home">
+        <div className="hero-visual" role="img" aria-label="Metallic Hari Engineering hydraulic branding">
+          <button className="hero-artwork-cta" onClick={openQuote} aria-label="Enquire now">Enquire Now <ArrowRight size={17} /></button>
+        </div>
       </section>
-      <section className="products-section section-wrap" id="products"><div className="section-topline"><SectionHeading eyebrow="Our capabilities" title={<>The right force<br />for the job.</>} /> <p className="section-sidecopy">Explore a considered range of hydraulic presses, jacks and power systems. Every product is selected around the demands of real work.</p></div><div className="filter-row">{categories.map((item) => <button key={item} className={category === item ? 'filter active' : 'filter'} onClick={() => setCategory(item)}>{item}</button>)}</div>{category !== 'Accessories' && <div className="product-grid">{shownProducts.map((product) => <ProductCard product={product} key={product.id} onEnquire={setSelectedProduct} />)}</div>}{(category === 'All' || category === 'Accessories') && <div className="accessory-block"><div className="accessory-heading"><p className="eyebrow">System essentials</p><h3>Hydraulic accessories</h3><p>Supporting components for complete hydraulic systems, maintenance and field service.</p></div><div className="accessory-grid">{accessories.map((item) => <AccessoryCard accessory={item} key={item.name} onEnquire={setSelectedProduct} />)}</div></div>}</section>
-      <section className="customers-section" id="customers"><div className="section-wrap"><SectionHeading eyebrow="Our customers" title="Trusted in good company." /></div><div className="logo-window"><div className="logo-track">{[...customerLogos, ...customerLogos].map((logo, index) => <img key={`${logo}-${index}`} src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" />)}</div></div></section>
-      <section className="services-section" id="services"><div className="section-wrap"><SectionHeading light eyebrow="Beyond the machine" title={<>Care that keeps<br />industry moving.</>}>Our service capability is built around uptime, safety and thoughtful engineering intervention.</SectionHeading><div className="services-grid">{services.map(({ title, description, icon: Icon }, index) => <div className="service-item" key={title}><span className="service-number">0{index + 1}</span><Icon size={25} strokeWidth={1.5} /><h3>{title}</h3><p>{description}</p><ChevronRight /></div>)}</div></div></section>
-      <section className="project-section section-wrap" id="projects"><div className="section-topline"><SectionHeading eyebrow="Featured project" title={<>Respect the legacy.<br />Renew the future.</>} /><p className="section-sidecopy">A before-and-after study in bringing legacy machinery back into productive service, with a cleaner, more capable finish.</p></div><div className="project-images"><figure><img src="/images/Hydraulic press machine refurbishment.jpeg" alt="Hydraulic press refurbishment project" loading="lazy" /><figcaption><span>01 / Refurbishment</span><strong>Restoring capability through considered engineering.</strong></figcaption></figure><div className="project-aside"><div className="aside-icon"><ShieldCheck /></div><p>Complete overhaul and refurbishment for hydraulic press models, with modernization and PLC automation capabilities where appropriate.</p><span className="project-note">Scope and one-year guarantee to be confirmed per project.</span></div></div></section>
-      <section className="contact-section section-wrap" id="contact"><div className="contact-layout"><div><SectionHeading eyebrow="Let’s get to work" title={<>Have a challenge<br />in mind?</>}>Tell us what you’re building, repairing or improving. We’ll bring the right questions.</SectionHeading><div className="contact-details"><a href={`tel:${company.phone.replace(/\s/g, '')}`}><Phone size={18} />{company.phone}</a><a href={`mailto:${company.email}`}><Mail size={18} />{company.email}</a><span><MapPin size={18} />{company.address}</span></div></div><div className="contact-form-wrap"><EnquiryForm /></div></div><div className="find-us"><div className="find-us-heading"><SectionHeading eyebrow="Our location" title="Find Us" /></div><div className="find-us-content"><div className="find-us-copy"><p>{company.address}</p><a className="button button-primary" href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(company.address)}`} target="_blank" rel="noreferrer">Get Directions <ArrowUpRight size={16} /></a></div><div className="map-frame"><iframe title="Hari Engineering location map" src={`https://www.google.com/maps?q=${encodeURIComponent(company.address)}&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" /></div></div></div></section>
-      <section className="intro section-wrap" id="about"><div className="intro-number">01</div><SectionHeading eyebrow="About Hari Engineering" title="Engineering a more dependable tomorrow.">Hari Engineering was established in 2023 with the intention of providing integrated hydraulic engineering solutions to domestic customers.</SectionHeading><div className="intro-grid"><button className="intro-image certificate-trigger" onClick={() => setCertificateOpen(true)} aria-label="View certificate"><img src="/images/Certificate.png" alt="Hari Engineering certificate" loading="lazy" /></button><div className="intro-copy"><p>From new equipment to legacy machinery, we bring practical engineering thinking to every stage of a hydraulic system’s life. Our work spans manufacturing, maintenance, repair, refurbishment, installation and recommissioning.</p><div className="mini-points"><div><strong>01</strong><span>Built for<br />industry</span></div><div><strong>02</strong><span>Service-led<br />partnership</span></div><div><strong>03</strong><span>Solutions that<br />fit the work</span></div></div><a className="text-button" href="#services">Discover our services <ArrowRight size={16} /></a></div></div></section>
+
+      <section className="products-section section-wrap" id="products">
+        <Reveal><SectionHeading eyebrow="Our products" title="The right force for the job.">Explore a considered range of hydraulic presses, jacks and power systems. Every product is selected around the demands of real work.</SectionHeading></Reveal>
+        <div className="filter-row">{categories.map((item) => <button key={item} className={category === item ? 'filter active' : 'filter'} onClick={() => setCategory(item)}>{item}</button>)}</div>
+        {category !== 'Accessories' && <div className="product-grid">{shownProducts.map((product, index) => <Reveal key={product.id} delay={index * 0.05}><ProductCard product={product} onEnquire={setSelectedProduct} /></Reveal>)}</div>}
+        {(category === 'All' || category === 'Accessories') && <div className="accessory-block"><div className="accessory-heading"><div><p className="eyebrow">System essentials</p><h3>Hydraulic accessories</h3></div><p>Supporting components for complete hydraulic systems, maintenance and field service.</p></div><div className="accessory-grid">{accessories.map((item, index) => <Reveal key={item.name} delay={index * 0.05}><AccessoryCard accessory={item} onEnquire={setSelectedProduct} /></Reveal>)}</div></div>}
+      </section>
+
+      <section className="about-section section-wrap" id="about">
+        <Reveal><SectionHeading eyebrow="About Hari Engineering" title="Engineering a more dependable tomorrow." /></Reveal>
+        <div className="about-panel">
+          <Reveal className="about-copy"><p className="eyebrow accent">Built for industry</p><h3>Practical engineering.<br />Dependable outcomes.</h3><p>Hari Engineering was established in 2023 with the intention of providing integrated hydraulic engineering solutions to domestic customers.</p><div className="tag-row"><span>Manufacturing</span><span>Maintenance</span><span>Refurbishment</span><span>Installation</span></div></Reveal>
+          <Reveal className="about-mark" delay={0.1}><div className="logo-bezel"><img src="/images/Logo.jpeg" alt="Hari Engineering logo" /></div></Reveal>
+        </div>
+        <div className="metrics-grid">{[['2023', 'Established with a service-first approach'], ['6+', 'Hydraulic service capabilities'], ['100%', 'Focused on dependable engineering']].map(([value, text], index) => <Reveal key={value} delay={index * 0.05}><article className="metric-card"><strong>{value}</strong><p>{text}</p></article></Reveal>)}</div>
+      </section>
+
+      <section className="story-section section-wrap">
+        <div className="story-grid"><Reveal className="info-card"><SectionHeading eyebrow="Who we are" title="Engineering that understands the work." /><p>From new equipment to legacy machinery, we bring practical engineering thinking to every stage of a hydraulic system’s life. Our work spans manufacturing, maintenance, repair, refurbishment, installation and recommissioning.</p><a className="text-button" href="#contact">Talk to our team <ArrowRight size={16} /></a></Reveal><Reveal className="info-card" delay={0.1}><SectionHeading eyebrow="Core capabilities" title="Built around your uptime." /><ul className="capability-list">{services.slice(0, 5).map((service) => <li key={service.title}><CheckCircle2 size={16} />{service.title}</li>)}</ul></Reveal></div>
+      </section>
+
+      <section className="process-section section-wrap" id="services">
+        <Reveal><SectionHeading eyebrow="How we execute" title="A considered way of working." /></Reveal>
+        <div className="process-grid">{[['01', 'Understand', 'We begin with the application, the constraints and the outcome you need.'], ['02', 'Engineer', 'We select, repair or configure the right hydraulic solution for the work.'], ['03', 'Deliver', 'We install, test and support the equipment through its working life.']].map(([number, title, text], index) => <Reveal key={number} delay={index * 0.05}><article className="process-card"><span>{number}</span><h3>{title}</h3><p>{text}</p></article></Reveal>)}</div>
+      </section>
+
+      <section className="customers-section" id="customers"><div className="section-wrap"><Reveal><SectionHeading eyebrow="Our customers" title="Trusted in good company." /></Reveal></div><div className="logo-window"><div className="logo-track">{[...customerLogos, ...customerLogos].map((logo, index) => <img key={`${logo}-${index}`} src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" />)}</div></div></section>
+
+      <section className="certificates-section section-wrap" id="certificates"><Reveal><SectionHeading eyebrow="Our credentials" title="Built on trust." /></Reveal><div className="certificate-grid"><button className="certificate-card" onClick={() => setCertificateOpen(true)}><img src="/images/Certificate.png" alt="Hari Engineering certificate" /><span>View certificate <ArrowUpRight size={16} /></span></button></div></section>
+
+      <section className="contact-section section-wrap" id="contact"><div className="contact-layout"><Reveal><SectionHeading eyebrow="Let’s get to work" title={<>Have a challenge<br />in mind?</>}>Tell us what you’re building, repairing or improving. We’ll bring the right questions.</SectionHeading><div className="contact-details"><a href={`tel:${company.phone.replace(/\s/g, '')}`}><Phone size={18} />{company.phone}</a><a href={`mailto:${company.email}`}><Mail size={18} />{company.email}</a><span><MapPin size={18} />{company.address}</span></div></Reveal><Reveal className="contact-form-wrap" delay={0.1}><EnquiryForm /></Reveal></div><div className="find-us"><div className="find-us-copy"><SectionHeading eyebrow="Our location" title="Find Us" /><p>{company.address}</p><a className="button button-primary" href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(company.address)}`} target="_blank" rel="noreferrer">Get Directions <ArrowUpRight size={16} /></a></div><div className="map-frame"><iframe title="Hari Engineering location map" src={`https://www.google.com/maps?q=${encodeURIComponent(company.address)}&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" /></div></div></section>
     </main>
-    <footer><div className="footer-top"><a className="brand footer-brand" href="#home"><img className="brand-logo" src="/images/Logo.jpeg" alt="Hari Engineering logo" /><span>{company.name}<small>HYDRAULIC ENGINEERING</small></span></a><p>Integrated hydraulic engineering solutions for industry, maintenance and what comes next.</p><a className="button button-ghost light-button" href="#contact">Start a conversation <ArrowUpRight size={16} /></a></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Hari Engineering. All rights reserved.</span><span>Jamshedpur, Jharkhand, India</span><a href={`mailto:${company.supportEmail}`}>{company.supportEmail}</a></div></footer>
+    <footer><div className="footer-top"><a className="brand footer-brand" href="#home"><img className="brand-logo" src="/images/Logo.jpeg" alt="Hari Engineering logo" /><span>{company.name}<small>HYDRAULIC ENGINEERING</small></span></a><p>Integrated hydraulic engineering solutions for industry, maintenance and what comes next.</p><a className="button button-ghost light-button" href="#contact">Start a conversation <ArrowUpRight size={16} /></a></div><div className="footer-links"><div><strong>Products</strong><a href="#products">Hydraulic presses</a><a href="#products">Hydraulic jacks</a><a href="#products">Power & cylinders</a></div><div><strong>Company</strong><a href="#about">About us</a><a href="#services">Services</a><a href="#customers">Customers</a></div><div><strong>Contact</strong><a href={`tel:${company.phone}`}>{company.phone}</a><a href={`mailto:${company.email}`}>{company.email}</a><span>{company.address}</span></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Hari Engineering. All rights reserved.</span><span>Jamshedpur, Jharkhand, India</span></div></footer>
     {selectedProduct && <EnquiryModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />}
     {certificateOpen && <CertificateModal onClose={() => setCertificateOpen(false)} />}
     <WhatsAppButton />

@@ -8,10 +8,11 @@ export const company = {
 }
 
 export const navItems = [
-  ['About', 'about'],
+  ['Home', 'home'],
   ['Products', 'products'],
-  ['Services', 'services'],
-  ['Projects', 'projects'],
-  ['Customers', 'customers'],
-  ['Contact', 'contact'],
+  ['About Us', 'about'],
+  ['Lubrication Systems', 'services'],
+  ['Applications', 'products'],
+  ['Certificates', 'certificates'],
+  ['Contact Us', 'contact'],
 ]
