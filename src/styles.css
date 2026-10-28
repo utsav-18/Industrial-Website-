@@ -91,13 +91,14 @@ html, body { overflow-x:hidden; }
   padding-right:36px;
   flex-shrink:0;
 }
-.marquee-group img,
-.logo-group img {
+.logo-tile {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:none;
   height:48px;
-  width:auto;
-  max-width:130px;
   padding:6px 16px;
-  object-fit:contain;
+  overflow:hidden;
   background:#ffffff;
   border:1px solid rgba(255,255,255,0.95);
   border-radius:9px;
@@ -106,10 +107,16 @@ html, body { overflow-x:hidden; }
   opacity:0.96;
   transition:transform .25s ease,box-shadow .25s ease,opacity .25s ease;
 }
+.logo-tile img {
+  display:block;
+  height:34px;
+  width:auto;
+  max-width:96px;
+  object-fit:contain;
+}
 .marquee-bar:hover .marquee-track,
 .logo-window:hover .logo-track { animation-play-state:paused; }
-.marquee-group img:hover,
-.logo-group img:hover {
+.logo-tile:hover {
   opacity:1;
   transform:translateY(-2px) scale(1.05);
   box-shadow:0 6px 20px rgba(0,0,0,0.28);
@@ -800,14 +807,14 @@ html, body { overflow-x:hidden; }
   gap:46px;
   padding-right:46px;
 }
-.customers-section .logo-group img {
+.customers-section .logo-tile {
   height:68px;
-  max-width:175px;
   padding:10px 22px;
   border-radius:12px;
   box-shadow:0 4px 14px rgba(0,0,0,0.2),0 1px 3px rgba(0,0,0,0.1);
 }
-.customers-section .logo-group img:hover {
+.customers-section .logo-tile img { height:46px; max-width:129px; }
+.customers-section .logo-tile:hover {
   transform:translateY(-3px) scale(1.06);
   box-shadow:0 8px 24px rgba(0,0,0,0.3);
 }
@@ -1171,14 +1178,16 @@ footer {
   .footer-bottom { flex-direction:column; gap:8px; }
   .whatsapp-button { width:54px; height:54px; right:16px; bottom:16px; }
   .marquee-group { gap:20px; padding-right:20px; }
-  .marquee-group img { height:34px; padding:4px 10px; max-width:85px; border-radius:6px; }
+  .marquee-group .logo-tile { width:104px; height:40px; padding:4px 8px; border-radius:6px; }
+  .marquee-group .logo-tile img,
+  .customers-section .logo-tile img { width:auto; height:auto; max-width:100%; max-height:100%; }
 
   /* Lower Customers Section on Mobile */
   .customers-section { padding:80px 0 85px; }
   .customers-section .section-wrap { padding-bottom:28px; }
   .customers-section .logo-window { height:74px; }
   .customers-section .logo-group { gap:24px; padding-right:24px; }
-  .customers-section .logo-group img { height:46px; padding:6px 14px; max-width:120px; border-radius:8px; }
+  .customers-section .logo-tile { width:132px; height:56px; padding:6px 10px; border-radius:8px; }
 
   /* Compact Mobile Enquiry Forms & Modal */
   .contact-form-wrap { padding:16px 14px; border-radius:12px; }

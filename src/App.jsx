@@ -51,10 +51,10 @@ export default function App() {
     <div className="marquee-bar" aria-label="Our customers">
       <div className="marquee-track">
         <div className="marquee-group">
-          {customerLogos.map((logo, index) => <img key={`m1-${logo}-${index}`} src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" />)}
+          {customerLogos.map((logo, index) => <span className="logo-tile" key={`m1-${logo}-${index}`}><img src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" /></span>)}
         </div>
         <div className="marquee-group" aria-hidden="true">
-          {customerLogos.map((logo, index) => <img key={`m2-${logo}-${index}`} src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" />)}
+          {customerLogos.map((logo, index) => <span className="logo-tile" key={`m2-${logo}-${index}`}><img src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" /></span>)}
         </div>
       </div>
     </div>
@@ -117,10 +117,10 @@ export default function App() {
         <div className="logo-window">
           <div className="logo-track">
             <div className="logo-group">
-              {customerLogos.map((logo, index) => <img key={`c1-${logo}-${index}`} src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" />)}
+              {customerLogos.map((logo, index) => <span className="logo-tile" key={`c1-${logo}-${index}`}><img src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" /></span>)}
             </div>
             <div className="logo-group" aria-hidden="true">
-              {customerLogos.map((logo, index) => <img key={`c2-${logo}-${index}`} src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" />)}
+              {customerLogos.map((logo, index) => <span className="logo-tile" key={`c2-${logo}-${index}`}><img src={`/images/Train/${logo}`} alt="Customer logo" loading="lazy" /></span>)}
             </div>
           </div>
         </div>
