@@ -16,6 +16,5 @@ export const navItems = [
   ['Products', 'products'],
   ['About Us', 'about'],
   ['Our Services', 'services'],
-  ['Certificates', 'certificates'],
   ['Contact Us', 'contact'],
 ]

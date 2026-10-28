@@ -10,7 +10,7 @@ function formatCategory(category, product) {
     'HYDRAULIC PRESSES': 'Hydraulic Press',
     'HYDRAULIC POWERPACK': 'Power Pack',
     'HYDRAULIC CYLINDER': 'Hydraulic Cylinder',
-    'AND HYDRAULIC EQUIPMENTS': 'Hydraulic Equipment',
+    'HYDRAULIC EQUIPMENTS': 'Hydraulic Equipment',
     'Hydraulic Presses': 'Hydraulic Press',
     'Hydraulic Jacks': 'Hydraulic Jack',
     'Power & Cylinders': 'Power & Cylinders',
