@@ -65,13 +65,6 @@ export default function App() {
         </div>
       </section>
 
-      <section className="products-section section-wrap" id="products">
-        <Reveal><SectionHeading eyebrow="Our products" title="The right force for the job.">Explore a considered range of hydraulic presses, jacks and power systems. Every product is selected around the demands of real work.</SectionHeading></Reveal>
-        <div className="filter-row">{categories.map((item) => <button key={item} className={category === item ? 'filter active' : 'filter'} onClick={() => setCategory(item)}>{item}</button>)}<a className="filter filter-link" href="#refurbishment">REFURBISHMENT PROJECTS <ArrowRight size={13} /></a></div>
-        <div className="product-grid">{shownProducts.map((product, index) => <Reveal key={product.id} delay={index * 0.05}><ProductCard product={product} onEnquire={setSelectedProduct} /></Reveal>)}</div>
-        {(category === 'HYDRAULIC EQUIPMENTS' || category === 'All' || category === 'ALL') && <div className="accessory-block"><div className="accessory-heading"><div><p className="eyebrow">System essentials</p><h3>Hydraulic accessories</h3></div><p>Supporting components for complete hydraulic systems, maintenance and field service.</p></div><div className="accessory-grid">{accessories.map((item, index) => <Reveal key={item.name} delay={index * 0.05}><AccessoryCard accessory={item} onEnquire={setSelectedProduct} /></Reveal>)}</div></div>}
-      </section>
-
       <section className="refurb-section section-wrap" id="refurbishment">
         <Reveal><SectionHeading eyebrow="Before & after" title="Refurbishment Projects in Action">We restore worn, ageing hydraulic presses to dependable, production-ready condition. Structural repair, hydraulic overhaul, new controls, safety upgrades and a full repaint return legacy machines to service with renewed performance and years of added working life.</SectionHeading></Reveal>
         <div className="refurb-grid">
@@ -82,6 +75,13 @@ export default function App() {
             </figure>
           </Reveal>)}
         </div>
+      </section>
+
+      <section className="products-section section-wrap" id="products">
+        <Reveal><SectionHeading eyebrow="Our products" title="The right force for the job.">Explore a considered range of hydraulic presses, jacks and power systems. Every product is selected around the demands of real work.</SectionHeading></Reveal>
+        <div className="filter-row">{categories.map((item) => <button key={item} className={category === item ? 'filter active' : 'filter'} onClick={() => setCategory(item)}>{item}</button>)}<a className="filter filter-link" href="#refurbishment">REFURBISHMENT PROJECTS <ArrowRight size={13} /></a></div>
+        <div className="product-grid">{shownProducts.map((product, index) => <Reveal key={product.id} delay={index * 0.05}><ProductCard product={product} onEnquire={setSelectedProduct} /></Reveal>)}</div>
+        {(category === 'HYDRAULIC EQUIPMENTS' || category === 'All' || category === 'ALL') && <div className="accessory-block"><div className="accessory-heading"><div><p className="eyebrow">System essentials</p><h3>Hydraulic accessories</h3></div><p>Supporting components for complete hydraulic systems, maintenance and field service.</p></div><div className="accessory-grid">{accessories.map((item, index) => <Reveal key={item.name} delay={index * 0.05}><AccessoryCard accessory={item} onEnquire={setSelectedProduct} /></Reveal>)}</div></div>}
       </section>
 
       <section className="about-section section-wrap" id="about">
